@@ -57,7 +57,7 @@ function HomePage() {
         <section className="experience-map" aria-labelledby="map-title">
           <div className="map-heading">
             <p className="kicker">Mapa do País das Infâncias</p>
-            <h2 id="map-title">Cada item é uma experiência</h2>
+            <h2 id="map-title">Mapa da travessia</h2>
           </div>
           <div className="experience-grid">
             {documentSections.map((section, index) => {
@@ -72,7 +72,7 @@ function HomePage() {
                   <img src={experience.asset} alt="" />
                   <div>
                     <p>{experience.label}</p>
-                    <h3>{getDisplayTitle(section.title)}</h3>
+                    <h3>{getCardTitle(section.id, section.title)}</h3>
                   </div>
                 </Link>
               );
@@ -150,7 +150,7 @@ function DocumentPage({ activeIndex }: { activeIndex: number }) {
                 key={`${section.id}-${index}`}
               >
                 <span>{String(index + 1).padStart(2, '0')}</span>
-                {getDisplayTitle(section.title)}
+                {getCardTitle(section.id, section.title)}
               </Link>
             ))}
           </nav>
@@ -290,6 +290,8 @@ function getSectionNumber(sectionId: string) {
 function getDisplayTitle(title: string) {
   const titles: Record<string, string> = {
     'POR ONDE COMEÇA A TOCA': 'Por onde começa a toca',
+    'Conselho do Gato Risonho - o que outros pesquisadores já descobriram?':
+      'Conselho do Gato Risonho',
     'O CHÁ DAS IDEIAS': 'O Chá das Ideias',
     'O RELÓGIO DO COELHO BRANCO - Toda travessia precisa de um caminho.':
       'O Relógio do Coelho Branco',
@@ -297,6 +299,15 @@ function getDisplayTitle(title: string) {
   };
 
   return titles[title] ?? title;
+}
+
+function getCardTitle(sectionId: string, title: string) {
+  const titles: Record<string, string> = {
+    'conselho-do-gato-risonho-o-que-outros-pesquisadores-ja-descobriram': 'Conselho do Gato Risonho',
+    'o-relogio-do-coelho-branco-toda-travessia-precisa-de-um-caminho': 'Relógio do Coelho Branco'
+  };
+
+  return titles[sectionId] ?? getDisplayTitle(title);
 }
 
 function getShortNavTitle(sectionId: string) {
@@ -475,20 +486,27 @@ function getExperience(sectionId: string) {
 
 function DocumentParagraph({ paragraph }: { paragraph: string }) {
   const trimmed = paragraph.trim();
-  if (trimmed.startsWith('**faria')) {
+  if (
+    trimmed.startsWith('**faria') ||
+    trimmed.startsWith('“Com pequenos cards') ||
+    trimmed.startsWith('( pode colocar') ||
+    trimmed.startsWith('Pode organizar por temas:')
+  ) {
     return null;
   }
 
   const cleanText = stripDocumentIcon(trimmed);
   const isPrompt =
-    trimmed.endsWith('?') ||
-    trimmed.startsWith('Pergunta') ||
-    trimmed.startsWith('O que aprendemos') ||
-    trimmed.startsWith('O deslocamento');
+    cleanText.endsWith('?') ||
+    cleanText.startsWith('Pergunta') ||
+    cleanText.startsWith('O que aprendemos') ||
+    cleanText.startsWith('O deslocamento');
   const isQuote = trimmed.startsWith('"') || trimmed.startsWith('“') || trimmed.includes('(Professora');
   const isLink = /^https?:\/\//.test(trimmed);
-  const isResource = /^[📚✨]/u.test(trimmed);
-  const isShortHeading = trimmed.length < 76 && !trimmed.endsWith('.') && !isQuote && !isLink;
+  const hasDocumentIcon = cleanText !== trimmed;
+  const isResource = hasDocumentIcon && !isPrompt;
+  const isListCard = cleanText.endsWith(';') || /^(Trilha|Parada|BAGAGEM|Chave)\s/i.test(cleanText);
+  const isShortHeading = cleanText.length < 76 && !cleanText.endsWith('.') && !isQuote && !isLink;
 
   if (isLink) {
     return (
@@ -499,7 +517,11 @@ function DocumentParagraph({ paragraph }: { paragraph: string }) {
   }
 
   if (isResource) {
-    return <p className="document-resource">{cleanText}</p>;
+    return <p className="document-resource document-card">{cleanText}</p>;
+  }
+
+  if (isListCard) {
+    return <p className="document-list-card document-card">{cleanText.replace(/;$/, '')}</p>;
   }
 
   if (isQuote) {
