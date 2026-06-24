@@ -8,6 +8,10 @@ export const router = createBrowserRouter([
     element: <App />
   },
   {
+    path: '/observatorio/:sectionId',
+    element: <App />
+  },
+  {
     path: '*',
     element: <NotFound />
   }

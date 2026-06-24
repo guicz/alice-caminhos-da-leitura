@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" role="img" aria-labelledby="title desc">
+<title>mirror</title><desc>Ilustra??o em aquarela no estilo Alice no Pa?s das Maravilhas.</desc>
+<defs>
+  <filter id="paper"><feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="3" seed="8"/><feColorMatrix type="saturate" values="0.22"/><feBlend in="SourceGraphic" mode="multiply"/></filter>
+  <filter id="soft"><feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#355c7d" flood-opacity="0.16"/></filter>
+  <pattern id="diamond" width="68" height="68" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="34" height="68" fill="#b6d6eb" opacity=".42"/><rect x="34" width="34" height="68" fill="#fff6e6"/></pattern>
+  <style>.ink{stroke:#2d2630;stroke-width:7;stroke-linecap:round;stroke-linejoin:round}.fine{stroke:#b88a44;stroke-width:3;stroke-linecap:round;fill:none}.wash{filter:url(#soft)}.gold{stroke:#b88a44;stroke-width:5;fill:none}.petrol{fill:#355c7d}.red{fill:#d94b4b}.pink{fill:#f4b6c2}.mint{fill:#cde6d6}.cream{fill:#fff6e6}.sky{fill:#b6d6eb}.leaf{fill:#7a9a7b}</style>
+</defs>
+<rect width="900" height="700" fill="#fff6e6"/><rect x="32" y="30" width="836" height="640" rx="28" fill="none" stroke="#b88a44" stroke-width="4" opacity=".72"/>
+<path class="fine" d="M70 64c30 0 28-34 54-28M830 64c-30 0-28-34-54-28M70 636c30 0 28 34 54 28M830 636c-30 0-28 34-54 28"/>
+<g><ellipse cx="452" cy="350" rx="188" ry="258" fill="#b6d6eb" opacity=".35" stroke="#b88a44" stroke-width="11"/><ellipse cx="452" cy="350" rx="145" ry="205" fill="#fff6e6" opacity=".65" stroke="#2d2630" stroke-width="6"/><path d="M360 326c72-54 138-72 218-136M340 422c108-78 176-112 236-192" stroke="#b6d6eb" stroke-width="24" opacity=".75"/><path class="gold" d="M452 88c38 28 72 28 108 0M344 116c32-42 66-44 108-4M452 608c26-60 74-68 134-28"/><rect x="374" y="592" width="156" height="44" rx="20" fill="#b88a44" stroke="#2d2630" stroke-width="6"/><g opacity=".9"><path class="leaf" d="M186 528c-46-8-82 10-112 44 50 2 86-12 112-44Z"/><path class="leaf" d="M704 542c42-18 80-8 116 24-47 13-84 5-116-24Z"/><circle cx="164" cy="530" r="22" fill="#f4b6c2"/><circle cx="720" cy="536" r="24" fill="#f4b6c2"/><circle cx="196" cy="555" r="15" fill="#d94b4b"/><circle cx="752" cy="568" r="15" fill="#d94b4b"/></g></g>
+</svg>

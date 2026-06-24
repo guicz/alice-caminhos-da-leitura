@@ -24,6 +24,7 @@ export type LibraryItem = {
 
 export const stops = [
   'entrada',
+  'documento',
   'toca',
   'investigadora',
   'gato',
