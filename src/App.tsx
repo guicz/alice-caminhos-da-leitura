@@ -72,7 +72,7 @@ function HomePage() {
                   <img src={experience.asset} alt="" />
                   <div>
                     <p>{experience.label}</p>
-                    <h3>{section.title}</h3>
+                    <h3>{getDisplayTitle(section.title)}</h3>
                   </div>
                 </Link>
               );
@@ -150,7 +150,7 @@ function DocumentPage({ activeIndex }: { activeIndex: number }) {
                 key={`${section.id}-${index}`}
               >
                 <span>{String(index + 1).padStart(2, '0')}</span>
-                {section.title}
+                {getDisplayTitle(section.title)}
               </Link>
             ))}
           </nav>
@@ -160,7 +160,9 @@ function DocumentPage({ activeIndex }: { activeIndex: number }) {
           <section className="experience-stage">
             <div className="scene-copy">
               <p className="kicker">Página {activeIndex + 1} da travessia</p>
-              <h1>{activeSection.title}</h1>
+              <h1 className={getDisplayTitle(activeSection.title).length > 52 ? 'is-long-title' : undefined}>
+                {getDisplayTitle(activeSection.title)}
+              </h1>
               <p>{experience.description}</p>
               {leadParagraph ? <blockquote>{leadParagraph}</blockquote> : null}
               <Button type="button" onClick={openExperience}>
@@ -188,7 +190,7 @@ function DocumentPage({ activeIndex }: { activeIndex: number }) {
               <>
                 <header className="content-header">
                   <p className="kicker">{experience.label}</p>
-                  <h2>{activeSection.title}</h2>
+                  <h2>{getDisplayTitle(activeSection.title)}</h2>
                 </header>
                 <div className="page-body">
                   {activeSection.paragraphs.map((paragraph, index) => (
@@ -250,7 +252,8 @@ function SiteHeader({
             to={`/observatorio/${section.id}`}
             key={section.id}
           >
-            {section.title.replace(' - Toda travessia precisa de um caminho.', '')}
+            <span>{getSectionNumber(section.id)}</span>
+            {getShortNavTitle(section.id)}
           </Link>
         ))}
       </nav>
@@ -277,6 +280,36 @@ function SiteHeader({
       ) : null}
     </header>
   );
+}
+
+function getSectionNumber(sectionId: string) {
+  const index = documentSections.findIndex((section) => section.id === sectionId);
+  return index >= 0 ? String(index + 1).padStart(2, '0') : '01';
+}
+
+function getDisplayTitle(title: string) {
+  const titles: Record<string, string> = {
+    'POR ONDE COMEÇA A TOCA': 'Por onde começa a toca',
+    'O CHÁ DAS IDEIAS': 'O Chá das Ideias',
+    'O RELÓGIO DO COELHO BRANCO - Toda travessia precisa de um caminho.':
+      'O Relógio do Coelho Branco',
+    'CAPÍTULOS DO PAÍS DAS INFÂNCIAS': 'Capítulos do País das Infâncias'
+  };
+
+  return titles[title] ?? title;
+}
+
+function getShortNavTitle(sectionId: string) {
+  const labels: Record<string, string> = {
+    apresentacao: 'Entrada',
+    'por-onde-comeca-a-toca': 'Toca',
+    'espelho-da-investigadora': 'Espelho',
+    'conselho-do-gato-risonho-o-que-outros-pesquisadores-ja-descobriram': 'Gato',
+    'o-cha-das-ideias': 'Chá',
+    'o-relogio-do-coelho-branco-toda-travessia-precisa-de-um-caminho': 'Método'
+  };
+
+  return labels[sectionId] ?? 'Trilha';
 }
 
 function getExperience(sectionId: string) {
@@ -442,6 +475,11 @@ function getExperience(sectionId: string) {
 
 function DocumentParagraph({ paragraph }: { paragraph: string }) {
   const trimmed = paragraph.trim();
+  if (trimmed.startsWith('**faria')) {
+    return null;
+  }
+
+  const cleanText = stripDocumentIcon(trimmed);
   const isPrompt =
     trimmed.endsWith('?') ||
     trimmed.startsWith('Pergunta') ||
@@ -449,6 +487,7 @@ function DocumentParagraph({ paragraph }: { paragraph: string }) {
     trimmed.startsWith('O deslocamento');
   const isQuote = trimmed.startsWith('"') || trimmed.startsWith('“') || trimmed.includes('(Professora');
   const isLink = /^https?:\/\//.test(trimmed);
+  const isResource = /^[📚✨]/u.test(trimmed);
   const isShortHeading = trimmed.length < 76 && !trimmed.endsWith('.') && !isQuote && !isLink;
 
   if (isLink) {
@@ -459,19 +498,27 @@ function DocumentParagraph({ paragraph }: { paragraph: string }) {
     );
   }
 
+  if (isResource) {
+    return <p className="document-resource">{cleanText}</p>;
+  }
+
   if (isQuote) {
-    return <blockquote className="document-quote">{trimmed}</blockquote>;
+    return <blockquote className="document-quote">{cleanText}</blockquote>;
   }
 
   if (isPrompt) {
-    return <p className="document-prompt">{trimmed}</p>;
+    return <p className="document-prompt">{cleanText}</p>;
   }
 
   if (isShortHeading) {
-    return <h2 className="document-subheading">{trimmed}</h2>;
+    return <h2 className="document-subheading">{cleanText}</h2>;
   }
 
-  return <p>{trimmed}</p>;
+  return <p>{cleanText}</p>;
+}
+
+function stripDocumentIcon(text: string) {
+  return text.replace(/^[📚✨]\s*/u, '');
 }
 
 export default App;
