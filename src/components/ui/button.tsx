@@ -8,8 +8,8 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary: 'bg-teal text-cream shadow-[5px_5px_0_#201815]',
-        ghost: 'bg-cream text-ink shadow-[5px_5px_0_#201815]',
+        primary: 'bg-teal text-cream shadow-[5px_5px_0_#2D2630]',
+        ghost: 'bg-cream text-ink shadow-[5px_5px_0_#2D2630]',
         compact: 'min-h-10 bg-teal px-4 text-cream'
       }
     },

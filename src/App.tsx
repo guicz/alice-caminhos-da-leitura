@@ -26,7 +26,7 @@ function HomePage() {
       <main className="site-shell">
         <section className="home-hero immersive-home" aria-labelledby="hero-title">
           <div className="hero-art" aria-hidden="true">
-            <img src="/assets/alice/gate.svg" alt="" />
+            <img src="/assets/alice-watercolor/gate.png" alt="" />
           </div>
           <div className="hero-copy">
             <p className="kicker">Produto educacional de mestrado</p>
@@ -286,7 +286,7 @@ function getExperience(sectionId: string) {
     closedTitle: 'Abra esta parada para carregar o conteúdo.',
     closedText: 'Cada página preserva o texto da cliente, mas aparece como uma cena navegável.',
     description: 'Uma parada narrativa do Observatório de Práticas.',
-    asset: '/assets/alice/gate.svg',
+    asset: '/assets/alice-watercolor/gate.png',
     className: 'scene-door',
     symbols: ['?', '✦', '•']
   };
@@ -299,7 +299,7 @@ function getExperience(sectionId: string) {
       closedTitle: 'A porta ainda está fechada.',
       closedText: 'Abra a entrada para apresentar o observatório e a travessia da pesquisa.',
       description: 'A chegada ao observatório: apresentação, contexto e convite para a travessia.',
-      asset: '/assets/alice/gate.svg',
+      asset: '/assets/alice-watercolor/gate.png',
       className: 'scene-door',
       symbols: ['porta', 'chave', 'mapa']
     },
@@ -310,7 +310,7 @@ function getExperience(sectionId: string) {
       closedTitle: 'A toca guarda o ponto de partida.',
       closedText: 'Entre para carregar o problema, objetivo, contexto e participantes da pesquisa.',
       description: 'O ponto de partida da investigação e das inquietações sobre formação docente.',
-      asset: '/assets/alice/rabbit.svg',
+      asset: '/assets/alice-watercolor/rabbit.png',
       className: 'scene-hole',
       symbols: ['↓', 'LEEI', '?']
     },
@@ -321,7 +321,7 @@ function getExperience(sectionId: string) {
       closedTitle: 'O espelho ainda não revelou a travessia.',
       closedText: 'Abra para conhecer a trajetória de Tatielli e o sentido da metáfora de Alice.',
       description: 'A pesquisadora aparece como parte da jornada, com suas memórias e deslocamentos.',
-      asset: '/assets/alice/mirror.svg',
+      asset: '/assets/alice-watercolor/mirror.png',
       className: 'scene-mirror',
       symbols: ['eu', 'Alice', 'travessia']
     },
@@ -332,7 +332,7 @@ function getExperience(sectionId: string) {
       closedTitle: 'As pistas ainda estão espalhadas.',
       closedText: 'Abra para carregar o estado do conhecimento e os caminhos já percorridos.',
       description: 'Um mapa de pistas para localizar a pesquisa entre o que já foi investigado.',
-      asset: '/assets/alice/cheshire.svg',
+      asset: '/assets/alice-watercolor/cheshire.png',
       className: 'scene-cat',
       symbols: ['CAPES', 'BDTD', 'SciELO']
     },
@@ -343,7 +343,7 @@ function getExperience(sectionId: string) {
       closedTitle: 'A mesa do chá está posta.',
       closedText: 'Abra para encontrar autores, ideias centrais e perguntas provocadoras.',
       description: 'A mesa teórica onde autores e autoras conversam com a pesquisa.',
-      asset: '/assets/alice/tea.svg',
+      asset: '/assets/alice-watercolor/tea.png',
       className: 'scene-tea',
       symbols: ['xícara', 'autores', 'ideias']
     },
@@ -354,7 +354,7 @@ function getExperience(sectionId: string) {
       closedTitle: 'O tempo metodológico ainda está fechado.',
       closedText: 'Abra para carregar abordagem, participantes, entrevistas, registros e ética.',
       description: 'A metodologia como caminho da travessia e organização do tempo da pesquisa.',
-      asset: '/assets/alice/clock-map.svg',
+      asset: '/assets/alice-watercolor/clock-map.png',
       className: 'scene-clock',
       symbols: ['tempo', 'método', 'vozes']
     },
@@ -365,7 +365,7 @@ function getExperience(sectionId: string) {
       closedTitle: 'Os capítulos estão à espera.',
       closedText: 'Abra para carregar as trilhas e os mundos de resultados do observatório.',
       description: 'A entrada para os resultados da pesquisa em trilhas narrativas.',
-      asset: '/assets/alice/storybook.svg',
+      asset: '/assets/alice-watercolor/storybook.png',
       className: 'scene-book',
       symbols: ['trilhas', 'vozes', 'resultados']
     },
@@ -376,7 +376,7 @@ function getExperience(sectionId: string) {
       closedTitle: 'O tabuleiro ainda não começou.',
       closedText: 'Abra para acompanhar formação inicial, teoria, prática e entrada na docência.',
       description: 'O movimento de tornar-se professora em casas, desafios e deslocamentos.',
-      asset: '/assets/alice/queen.svg',
+      asset: '/assets/alice-watercolor/queen.png',
       className: 'scene-chess',
       symbols: ['casa 1', 'casa 2', 'casa 3']
     },
@@ -387,7 +387,7 @@ function getExperience(sectionId: string) {
       closedTitle: 'A próxima casa depende de movimento.',
       closedText: 'Abra para carregar percursos, tensões e aprendizagens da formação continuada.',
       description: 'A formação continuada como movimento permanente, troca e reflexão.',
-      asset: '/assets/alice/chess-garden.svg',
+      asset: '/assets/alice-watercolor/chess-garden.png',
       className: 'scene-board',
       symbols: ['mover', 'trocar', 'refletir']
     },
@@ -398,7 +398,7 @@ function getExperience(sectionId: string) {
       closedTitle: 'A última casa guarda os deslocamentos.',
       closedText: 'Abra para carregar as repercussões do LEEI nas práticas e concepções.',
       description: 'Os deslocamentos produzidos pelo LEEI e o que permanece na docência.',
-      asset: '/assets/alice/golden-key.svg',
+      asset: '/assets/alice-watercolor/golden-key.png',
       className: 'scene-key',
       symbols: ['LEEI', 'deslocar', 'prática']
     },
@@ -409,7 +409,7 @@ function getExperience(sectionId: string) {
       closedTitle: 'A biblioteca guarda cartas, vozes e práticas.',
       closedText: 'Abra para carregar registros, cartas das professoras e práticas que ganharam asas.',
       description: 'O acervo narrativo do observatório: cartas, vozes, práticas e tesouros.',
-      asset: '/assets/alice/hatter-library.svg',
+      asset: '/assets/alice-watercolor/hatter-library.png',
       className: 'scene-library',
       symbols: ['cartas', 'vozes', 'asas']
     },
@@ -420,7 +420,7 @@ function getExperience(sectionId: string) {
       closedTitle: 'O mapa ainda está dobrado.',
       closedText: 'Abra para carregar leituras, documentos, vídeos e materiais complementares.',
       description: 'Pistas para seguir estudando infâncias, leitura, escrita e formação docente.',
-      asset: '/assets/alice/curiosity-map.svg',
+      asset: '/assets/alice-watercolor/curiosity-map.png',
       className: 'scene-map',
       symbols: ['pistas', 'links', 'seguir']
     },
@@ -431,7 +431,7 @@ function getExperience(sectionId: string) {
       closedTitle: 'A mala guarda os achados.',
       closedText: 'Abra para carregar a síntese final e os tesouros da pesquisa.',
       description: 'A síntese dos achados, perguntas e deslocamentos que ficam da jornada.',
-      asset: '/assets/alice/suitcase.svg',
+      asset: '/assets/alice-watercolor/suitcase.png',
       className: 'scene-bag',
       symbols: ['livro', 'carta', 'rosa']
     }

@@ -11,13 +11,15 @@ const config = {
         sans: ['Nunito', 'sans-serif']
       },
       colors: {
-        ink: '#201815',
-        paper: '#fbf3df',
-        cream: '#fff9eb',
-        rose: '#9f2434',
-        teal: '#176f69',
-        gold: '#c98b2c',
-        violet: '#463064'
+        ink: '#2D2630',
+        paper: '#FBF0D8',
+        cream: '#FFF6E6',
+        rose: '#F4B6C2',
+        red: '#D94B4B',
+        teal: '#355C7D',
+        mint: '#CDE6D6',
+        sky: '#B6D6EB',
+        gold: '#B88A44'
       },
       borderRadius: {
         lg: 'var(--radius)',

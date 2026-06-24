@@ -7,7 +7,7 @@ type CardProps = React.HTMLAttributes<HTMLElement> & {
 export function Card({ as: Comp = 'div', className, ...props }: CardProps) {
   return (
     <Comp
-      className={cn('rounded-md border-2 border-ink bg-cream/90 shadow-[5px_5px_0_#201815]', className)}
+      className={cn('rounded-md border-2 border-ink bg-cream/90 shadow-[5px_5px_0_#2D2630]', className)}
       {...props}
     />
   );
