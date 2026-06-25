@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import type { CSSProperties } from 'react';
 import { Expand, Menu } from 'lucide-react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -67,8 +68,9 @@ function HomePage() {
                   className={`experience-card ${experience.className}`}
                   to={`/observatorio/${section.id}`}
                   key={`${section.id}-${index}`}
+                  style={{ '--card-image': `url(${experience.asset})` } as CSSProperties}
                 >
-                  <img src={experience.asset} alt="" />
+                  <img src={getCutoutAsset(experience.asset)} alt="" />
                   <div>
                     <p>{experience.label}</p>
                     <h3>{getCardTitle(section.id, section.title)}</h3>
@@ -81,6 +83,14 @@ function HomePage() {
       </main>
     </>
   );
+}
+
+function getCutoutAsset(asset: string) {
+  if (!asset.endsWith('.png')) {
+    return asset;
+  }
+
+  return asset.replace('/alice-watercolor/', '/alice-watercolor/cutouts/').replace('.png', '-cutout.webp');
 }
 
 function DocumentPage({ activeIndex }: { activeIndex: number }) {
