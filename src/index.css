@@ -200,13 +200,12 @@ a {
   border-radius: 12px;
 }
 
-.mode-controls {
+.header-actions {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.mode-button,
 .icon-button {
   min-height: 38px;
   padding: 0 12px;
@@ -220,7 +219,6 @@ a {
   cursor: pointer;
 }
 
-.mode-button.is-active,
 .icon-button:hover {
   color: var(--cream);
   background: var(--petrol);
@@ -384,7 +382,7 @@ p {
   color: var(--ink);
   background-color: var(--cream);
   background-image: var(--card-image);
-  background-size: 118% auto;
+  background-size: cover;
   background-position: right center;
   border: 1px solid rgba(184, 138, 68, 0.72);
   border-radius: 24px;
@@ -417,25 +415,8 @@ p {
   z-index: 1;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(255, 246, 230, 0.82) 0 32%, rgba(255, 246, 230, 0.42) 52%, rgba(255, 246, 230, 0.04) 76%),
-    linear-gradient(0deg, rgba(251, 240, 216, 0.76) 0 28%, rgba(251, 240, 216, 0.24) 52%, transparent 78%);
-}
-
-.experience-card img {
-  position: absolute;
-  z-index: 2;
-  top: 10px;
-  right: 12px;
-  width: min(46%, 220px);
-  height: 66%;
-  object-fit: contain;
-  object-position: right top;
-  border: 0;
-  border-radius: 0;
-  box-shadow: none;
-  opacity: 0.96;
-  pointer-events: none;
-  filter: saturate(1.06) contrast(1.02);
+    linear-gradient(90deg, rgba(255, 246, 230, 0.9) 0 34%, rgba(255, 246, 230, 0.58) 52%, rgba(255, 246, 230, 0.18) 72%),
+    linear-gradient(0deg, rgba(251, 240, 216, 0.74) 0 30%, rgba(251, 240, 216, 0.24) 58%, transparent 84%);
 }
 
 .experience-card div {
@@ -473,11 +454,6 @@ p {
   background-position: center;
 }
 
-.experience-card:last-child img {
-  width: min(32%, 340px);
-  height: 82%;
-}
-
 .experience-card:last-child div {
   max-width: min(56%, 560px);
 }
@@ -490,14 +466,6 @@ p {
   width: min(1500px, 100%);
   margin: 0 auto;
   padding: clamp(24px, 4vw, 52px);
-}
-
-.reader-shell[data-mode='banca'] {
-  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
-}
-
-.reader-shell[data-mode='banca'] .section-sidebar nav a:not(.is-selected) {
-  opacity: 0.72;
 }
 
 .section-sidebar {
@@ -897,12 +865,11 @@ p {
   }
 
   .main-nav,
-  .mode-controls {
+  .header-actions {
     flex-wrap: wrap;
   }
 
   .reader-shell,
-  .reader-shell[data-mode='banca'],
   .home-hero,
   .experience-stage {
     grid-template-columns: 1fr;

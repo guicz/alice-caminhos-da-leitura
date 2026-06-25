@@ -70,7 +70,6 @@ function HomePage() {
                   key={`${section.id}-${index}`}
                   style={{ '--card-image': `url(${experience.asset})` } as CSSProperties}
                 >
-                  <img src={getCutoutAsset(experience.asset)} alt="" />
                   <div>
                     <p>{experience.label}</p>
                     <h3>{getCardTitle(section.id, section.title)}</h3>
@@ -85,16 +84,7 @@ function HomePage() {
   );
 }
 
-function getCutoutAsset(asset: string) {
-  if (!asset.endsWith('.png')) {
-    return asset;
-  }
-
-  return asset.replace('/alice-watercolor/', '/alice-watercolor/cutouts/').replace('.png', '-cutout.webp');
-}
-
 function DocumentPage({ activeIndex }: { activeIndex: number }) {
-  const [mode, setMode] = useState<'banca' | 'observatorio'>('banca');
   const [contentOpen, setContentOpen] = useState(false);
   const contentRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
@@ -141,12 +131,10 @@ function DocumentPage({ activeIndex }: { activeIndex: number }) {
         <span style={{ width: `${progress}%` }} />
       </div>
       <SiteHeader
-        mode={mode}
-        onModeChange={setMode}
         onFullscreen={requestFullscreen}
         activeSectionId={activeSection.id}
       />
-      <main className={`reader-shell ${experience.className}`} data-mode={mode}>
+      <main className={`reader-shell ${experience.className}`}>
         <aside className="section-sidebar" aria-label="Páginas do observatório">
           <Link className="sidebar-home" to="/">
             Mapa da travessia
@@ -238,13 +226,9 @@ function DocumentPage({ activeIndex }: { activeIndex: number }) {
 }
 
 function SiteHeader({
-  mode,
-  onModeChange,
   onFullscreen,
   activeSectionId
 }: {
-  mode?: 'banca' | 'observatorio';
-  onModeChange?: (mode: 'banca' | 'observatorio') => void;
   onFullscreen?: () => void;
   activeSectionId?: string;
 }) {
@@ -285,22 +269,8 @@ function SiteHeader({
           </div>
         </details>
       </nav>
-      {mode && onModeChange && onFullscreen ? (
-        <div className="mode-controls" aria-label="Modos de navegação">
-          <button
-            className={`mode-button ${mode === 'banca' ? 'is-active' : ''}`}
-            type="button"
-            onClick={() => onModeChange('banca')}
-          >
-            Modo Banca
-          </button>
-          <button
-            className={`mode-button ${mode === 'observatorio' ? 'is-active' : ''}`}
-            type="button"
-            onClick={() => onModeChange('observatorio')}
-          >
-            Modo Observatório
-          </button>
+      {onFullscreen ? (
+        <div className="header-actions">
           <button className="icon-button" type="button" onClick={onFullscreen} aria-label="Tela cheia">
             <Expand size={18} />
           </button>

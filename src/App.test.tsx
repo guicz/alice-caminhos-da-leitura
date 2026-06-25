@@ -36,6 +36,6 @@ describe('Observatório app', () => {
     render(<RouterProvider router={router} />);
 
     expect(screen.getByRole('heading', { name: documentSections[0].title })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Modo Banca' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Tela cheia' })).toBeInTheDocument();
   });
 });
