@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Expand } from 'lucide-react';
+import { Expand, Menu } from 'lucide-react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { documentSections } from '@/data/document-content';
@@ -68,7 +68,6 @@ function HomePage() {
                   to={`/observatorio/${section.id}`}
                   key={`${section.id}-${index}`}
                 >
-                  <span className="experience-number">{String(index + 1).padStart(2, '0')}</span>
                   <img src={experience.asset} alt="" />
                   <div>
                     <p>{experience.label}</p>
@@ -239,6 +238,9 @@ function SiteHeader({
   onFullscreen?: () => void;
   activeSectionId?: string;
 }) {
+  const primarySections = documentSections.slice(0, 6);
+  const overflowSections = documentSections.slice(6);
+
   return (
     <header className="site-header">
       <Link className="brand" to="/" aria-label="Voltar ao início">
@@ -246,16 +248,32 @@ function SiteHeader({
         <span>Observatório</span>
       </Link>
       <nav className="main-nav" aria-label="Atalhos principais">
-        {documentSections.slice(0, 6).map((section) => (
+        {primarySections.map((section) => (
           <Link
             className={section.id === activeSectionId ? 'is-selected' : ''}
             to={`/observatorio/${section.id}`}
             key={section.id}
           >
-            <span>{getSectionNumber(section.id)}</span>
             {getShortNavTitle(section.id)}
           </Link>
         ))}
+        <details className="nav-more">
+          <summary>
+            <Menu size={16} />
+            Trilhas
+          </summary>
+          <div className="nav-menu-panel">
+            {overflowSections.map((section) => (
+              <Link
+                className={section.id === activeSectionId ? 'is-selected' : ''}
+                to={`/observatorio/${section.id}`}
+                key={section.id}
+              >
+                {getCardTitle(section.id, section.title)}
+              </Link>
+            ))}
+          </div>
+        </details>
       </nav>
       {mode && onModeChange && onFullscreen ? (
         <div className="mode-controls" aria-label="Modos de navegação">
@@ -280,11 +298,6 @@ function SiteHeader({
       ) : null}
     </header>
   );
-}
-
-function getSectionNumber(sectionId: string) {
-  const index = documentSections.findIndex((section) => section.id === sectionId);
-  return index >= 0 ? String(index + 1).padStart(2, '0') : '01';
 }
 
 function getDisplayTitle(title: string) {
