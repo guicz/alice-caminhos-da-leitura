@@ -3,7 +3,9 @@ import type { CSSProperties } from 'react';
 import { Expand, Menu } from 'lucide-react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { SectionExperience } from '@/components/SectionExperience';
 import { documentSections } from '@/data/document-content';
+import { hasSectionExperience } from '@/data/section-experiences';
 
 function App() {
   const { sectionId } = useParams();
@@ -97,6 +99,7 @@ function DocumentPage({ activeIndex }: { activeIndex: number }) {
     return activeSection.paragraphs.find((paragraph) => paragraph.length > 90) ?? activeSection.paragraphs[0];
   }, [activeSection]);
   const experience = getExperience(activeSection.id);
+  const hasBespokeContent = hasSectionExperience(activeSection.id);
 
   useEffect(() => {
     setContentOpen(false);
@@ -189,11 +192,25 @@ function DocumentPage({ activeIndex }: { activeIndex: number }) {
                   <p className="kicker">{experience.label}</p>
                   <h2>{getDisplayTitle(activeSection.title)}</h2>
                 </header>
-                <div className="page-body">
-                  {activeSection.paragraphs.map((paragraph, index) => (
-                    <DocumentParagraph paragraph={paragraph} key={`${activeSection.id}-${index}`} />
-                  ))}
-                </div>
+                {hasBespokeContent ? (
+                  <>
+                    <SectionExperience sectionId={activeSection.id} paragraphs={activeSection.paragraphs} />
+                    <details className="source-drawer">
+                      <summary>Texto completo do documento</summary>
+                      <div className="page-body">
+                        {activeSection.paragraphs.map((paragraph, index) => (
+                          <DocumentParagraph paragraph={paragraph} key={`${activeSection.id}-${index}`} />
+                        ))}
+                      </div>
+                    </details>
+                  </>
+                ) : (
+                  <div className="page-body">
+                    {activeSection.paragraphs.map((paragraph, index) => (
+                      <DocumentParagraph paragraph={paragraph} key={`${activeSection.id}-${index}`} />
+                    ))}
+                  </div>
+                )}
               </>
             )}
           </section>

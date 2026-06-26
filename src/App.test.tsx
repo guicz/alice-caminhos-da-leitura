@@ -1,5 +1,5 @@
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import App from '@/App';
 import { documentSections } from '@/data/document-content';
@@ -37,5 +37,25 @@ describe('Observatório app', () => {
 
     expect(screen.getByRole('heading', { name: documentSections[0].title })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Tela cheia' })).toBeInTheDocument();
+  });
+
+  it('opens the hatter library with real practice galleries', () => {
+    const router = createMemoryRouter(
+      [
+        {
+          path: '/observatorio/:sectionId',
+          element: <App />
+        }
+      ],
+      { initialEntries: ['/observatorio/biblioteca-do-chapeleiro'] }
+    );
+
+    render(<RouterProvider router={router} />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Abrir a biblioteca' }));
+    fireEvent.click(screen.getByRole('tab', { name: /Práticas/i }));
+
+    expect(screen.getAllByRole('heading', { name: 'Restaurante Literário' }).length).toBeGreaterThan(0);
+    expect(screen.getByAltText('Restaurante Literário - foto 1')).toBeInTheDocument();
   });
 });
