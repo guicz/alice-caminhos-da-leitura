@@ -367,24 +367,25 @@ p {
 
 .experience-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: 230px;
+  gap: 22px;
 }
 
 .experience-card {
   position: relative;
   isolation: isolate;
-  min-height: 270px;
+  min-height: 0;
   display: grid;
   align-content: end;
   overflow: hidden;
-  padding: 24px;
+  padding: 22px;
   color: var(--ink);
   background-color: var(--cream);
   background-image: var(--card-image);
   background-repeat: no-repeat;
-  background-size: auto calc(100% - 28px);
-  background-position: right 18px center;
+  background-size: auto calc(100% - 24px);
+  background-position: right 16px center;
   border: 1px solid rgba(184, 138, 68, 0.72);
   border-radius: 24px;
   box-shadow: 0 24px 56px rgba(53, 92, 125, 0.12);
@@ -448,15 +449,15 @@ p {
   text-wrap: balance;
 }
 
-.experience-card:last-child {
-  grid-column: 1 / -1;
-  min-height: 300px;
-  background-size: auto calc(100% - 36px);
-  background-position: right 42px center;
+.experience-card:first-child {
+  grid-column: span 2;
+  grid-row: span 2;
+  background-size: auto calc(100% - 42px);
+  background-position: right 30px center;
 }
 
-.experience-card:last-child div {
-  max-width: min(56%, 560px);
+.experience-card:first-child h3 {
+  font-size: clamp(1.55rem, 2.1vw, 2.2rem);
 }
 
 .reader-shell {
@@ -883,10 +884,12 @@ p {
 
   .experience-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 230px;
   }
 
-  .experience-card:last-child {
-    grid-column: auto;
+  .experience-card:first-child {
+    grid-column: 1 / -1;
+    grid-row: auto;
   }
 
   .page-body {
@@ -911,10 +914,14 @@ p {
 
   .experience-grid {
     grid-template-columns: 1fr;
+    grid-auto-rows: auto;
   }
 
-  .experience-card:last-child {
+  .experience-card,
+  .experience-card:first-child {
     grid-column: auto;
+    grid-row: auto;
+    min-height: 240px;
   }
 
   .page-navigation > :last-child {
