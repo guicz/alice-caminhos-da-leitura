@@ -199,7 +199,7 @@ function DocumentPage({ activeIndex }: { activeIndex: number }) {
                   <>
                     <SectionExperience sectionId={activeSection.id} paragraphs={activeSection.paragraphs} />
                     <details className="source-drawer">
-                      <summary>Ler o texto em blocos visuais</summary>
+                      <summary>Acessar conteúdo completo</summary>
                       <VisualDocumentReader
                         key={activeSection.id}
                         paragraphs={activeSection.paragraphs}
@@ -666,11 +666,13 @@ function getReaderParagraph(paragraph: string): ReaderParagraph | null {
   const isQuote = trimmed.startsWith('"') || trimmed.startsWith('â€œ') || trimmed.includes('(Professora');
   const hasDocumentIcon = text !== trimmed;
   const isResource = hasDocumentIcon && !isPrompt;
-  const isList = text.endsWith(';') || /^(Trilha|Parada|BAGAGEM|Chave)\s/i.test(text);
+  const isMarker = /^(Trilha|Parada|BAGAGEM|PERCURSO|Chave)\s*\d+/i.test(text);
+  const isList = text.endsWith(';') || /^(Trilha|Parada|Chave)\s/i.test(text);
   const isHeading = text.length < 76 && !text.endsWith('.') && !isQuote && !isLink;
 
   if (isLink) return { kind: 'link', text: trimmed, href: trimmed.split(' ')[0], isHeading: false };
   if (isResource) return { kind: 'resource', text, isHeading: false };
+  if (isMarker) return null;
   if (isList) return { kind: 'list', text: text.replace(/;$/, ''), isHeading: false };
   if (isQuote) return { kind: 'quote', text, isHeading: false };
   if (isPrompt) return { kind: 'prompt', text, isHeading: false };

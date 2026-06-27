@@ -411,14 +411,14 @@ function LibraryTab({
 function TeacherLettersPanel() {
   return (
     <section className="library-panel letter-station">
-      <div className="letter-station-copy">
+      <header className="letter-station-copy">
         <p className="kicker">Cartas das professoras</p>
         <h3>Envelopes abertos para futuras cursistas</h3>
         <p>
           As cartas reais entram como peças de acervo: cada uma pode ser aberta em tela cheia para
           leitura mais confortável.
         </p>
-      </div>
+      </header>
       <div className="letter-grid">
         {teacherLetters.map((letter) => (
           <a className="letter-card" href={letter.image} target="_blank" rel="noreferrer" key={letter.id}>
@@ -538,7 +538,7 @@ function BaggageExperience() {
       </section>
       <div className="suitcase-scene">
         <div className="suitcase-hero" aria-hidden="true">
-          <img src="/assets/alice-watercolor/suitcase.png" alt="" />
+          <img src="/assets/alice-watercolor/suitcase-cropped.png" alt="" />
         </div>
         <div className="suitcase-grid">
           {suitcaseItems.map(([item, body, icon]) => (
