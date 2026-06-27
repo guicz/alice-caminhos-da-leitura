@@ -125,8 +125,8 @@ const suitcaseItems: SuitcaseItem[] = [
     item: 'Boneca',
     body: 'A infância não fica para trás.',
     icon: 'sparkles',
-    image: '/assets/alice-watercolor/gate.png',
-    alt: 'Portão ilustrado cercado por flores'
+    image: '/assets/alice-watercolor/alice-doll.webp',
+    alt: 'Alice de costas segurando uma boneca em um jardim de rosas'
   },
   {
     item: 'Livro',
