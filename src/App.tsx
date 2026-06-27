@@ -530,61 +530,60 @@ function VisualDocumentReader({ sectionTitle, paragraphs }: { sectionTitle: stri
       <div className="reader-progress" aria-hidden="true">
         <span style={{ width: `${progress}%` }} />
       </div>
-      <div className="reader-track">
-        <nav className="reader-tabs" aria-label={`Blocos de leitura de ${sectionTitle}`}>
-          {blocks.map((block, index) => (
-            <button
-              className={index === safeIndex ? 'is-active' : undefined}
-              type="button"
-              onClick={() => setActiveIndex(index)}
-              key={`${block.title}-${index}`}
-            >
-              <span>{String(index + 1).padStart(2, '0')}</span>
-              {block.title}
-            </button>
-          ))}
-        </nav>
+      <nav className="reader-tabs" aria-label={`Categorias de leitura de ${sectionTitle}`}>
+        {blocks.map((block, index) => (
+          <button
+            className={index === safeIndex ? 'is-active' : undefined}
+            type="button"
+            onClick={() => setActiveIndex(index)}
+            key={`${block.title}-${index}`}
+          >
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <strong>{block.eyebrow}</strong>
+            <small>{block.title}</small>
+          </button>
+        ))}
+      </nav>
 
-        <article className={`reader-slide reader-${activeBlock.kind}`}>
-          <header className="reader-slide-header">
-            <div>
-              <p className="kicker">{activeBlock.eyebrow}</p>
-              <h3>{activeBlock.title}</h3>
-            </div>
-            <span className="reader-slide-icon">{getReaderIcon(activeBlock.kind)}</span>
-          </header>
-
-          <div className="reader-slide-items">
-            {activeBlock.items.map((item, index) => (
-              <ReaderItem item={item} key={`${item.text}-${index}`} />
-            ))}
+      <article className={`reader-slide reader-${activeBlock.kind}`}>
+        <header className="reader-slide-header">
+          <div>
+            <p className="kicker">{activeBlock.eyebrow}</p>
+            <h3>{activeBlock.title}</h3>
           </div>
+          <span className="reader-slide-icon">{getReaderIcon(activeBlock.kind)}</span>
+        </header>
 
-          <footer className="reader-controls">
-            <button
-              type="button"
-              onClick={() => setActiveIndex((current) => Math.max(0, current - 1))}
-              disabled={safeIndex === 0}
-              aria-label="Bloco anterior"
-            >
-              <ChevronLeft aria-hidden="true" />
-              Anterior
-            </button>
-            <span>
-              {safeIndex + 1}/{blocks.length}
-            </span>
-            <button
-              type="button"
-              onClick={() => setActiveIndex((current) => Math.min(blocks.length - 1, current + 1))}
-              disabled={safeIndex === blocks.length - 1}
-              aria-label="Proximo bloco"
-            >
-              Proximo
-              <ChevronRight aria-hidden="true" />
-            </button>
-          </footer>
-        </article>
-      </div>
+        <div className="reader-slide-items">
+          {activeBlock.items.map((item, index) => (
+            <ReaderItem item={item} key={`${item.text}-${index}`} />
+          ))}
+        </div>
+
+        <footer className="reader-controls">
+          <button
+            type="button"
+            onClick={() => setActiveIndex((current) => Math.max(0, current - 1))}
+            disabled={safeIndex === 0}
+            aria-label="Bloco anterior"
+          >
+            <ChevronLeft aria-hidden="true" />
+            Anterior
+          </button>
+          <span>
+            {safeIndex + 1}/{blocks.length}
+          </span>
+          <button
+            type="button"
+            onClick={() => setActiveIndex((current) => Math.min(blocks.length - 1, current + 1))}
+            disabled={safeIndex === blocks.length - 1}
+            aria-label="Proximo bloco"
+          >
+            Proximo
+            <ChevronRight aria-hidden="true" />
+          </button>
+        </footer>
+      </article>
     </div>
   );
 }

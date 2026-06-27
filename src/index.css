@@ -1677,39 +1677,39 @@ p {
   transition: width 220ms ease;
 }
 
-.reader-track {
-  display: grid;
-  grid-template-columns: minmax(220px, 0.34fr) minmax(0, 1fr);
-  gap: clamp(16px, 3vw, 26px);
-  align-items: start;
-}
-
 .reader-tabs {
-  display: grid;
-  gap: 10px;
-  max-height: 560px;
-  overflow: auto;
-  padding: 4px 4px 4px 0;
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 4px 4px 12px;
+  scroll-snap-type: x proximity;
 }
 
 .reader-tabs button {
   display: grid;
+  flex: 0 0 min(245px, 78vw);
   grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
   gap: 10px;
   align-items: center;
-  min-height: 56px;
-  padding: 10px 12px;
+  min-height: 96px;
+  padding: 14px 16px;
   color: var(--petrol);
-  background: rgba(255, 246, 230, 0.78);
+  background:
+    linear-gradient(145deg, rgba(255, 246, 230, 0.94), rgba(182, 214, 235, 0.16)),
+    var(--cream);
   border: 1px solid rgba(184, 138, 68, 0.36);
-  border-radius: 16px;
+  border-radius: 20px;
   font-family: 'Nunito', sans-serif;
   font-weight: 900;
   text-align: left;
   cursor: pointer;
+  scroll-snap-align: start;
+  box-shadow: 0 10px 24px rgba(53, 92, 125, 0.08);
 }
 
 .reader-tabs button span {
+  grid-row: 1 / 3;
   display: grid;
   place-items: center;
   width: 34px;
@@ -1719,12 +1719,27 @@ p {
   border-radius: 999px;
 }
 
+.reader-tabs button strong {
+  align-self: end;
+  color: var(--red);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+}
+
+.reader-tabs button small {
+  align-self: start;
+  color: var(--petrol);
+  font-size: 0.88rem;
+  line-height: 1.25;
+}
+
 .reader-tabs button.is-active {
-  color: var(--cream);
-  background: var(--petrol);
+  background:
+    radial-gradient(circle at 100% 0, rgba(205, 230, 214, 0.4), transparent 8rem),
+    var(--petrol);
   border-color: var(--ink);
   box-shadow: 5px 6px 0 var(--ink);
-  transform: translate(-2px, -2px);
+  transform: translateY(-2px);
 }
 
 .reader-tabs button.is-active span {
@@ -1732,12 +1747,19 @@ p {
   background: var(--sky);
 }
 
+.reader-tabs button.is-active strong,
+.reader-tabs button.is-active small {
+  color: var(--cream);
+}
+
 .reader-slide {
   position: relative;
-  min-height: 430px;
+  min-height: 390px;
   overflow: hidden;
-  padding: clamp(22px, 4vw, 40px);
+  margin-top: 8px;
+  padding: clamp(22px, 4vw, 44px);
   background:
+    linear-gradient(90deg, rgba(255, 246, 230, 0.98) 0 32%, rgba(255, 246, 230, 0.74) 32% 100%),
     radial-gradient(circle at 100% 0, rgba(182, 214, 235, 0.32), transparent 18rem),
     linear-gradient(135deg, rgba(255, 246, 230, 0.96), rgba(205, 230, 214, 0.28));
   border: 1px solid rgba(184, 138, 68, 0.48);
@@ -1757,9 +1779,10 @@ p {
 .reader-slide-header {
   position: relative;
   z-index: 1;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 20px;
-  justify-content: space-between;
+  align-items: start;
   margin-bottom: clamp(18px, 3vw, 30px);
 }
 
@@ -1792,17 +1815,19 @@ p {
   z-index: 1;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: 16px;
 }
 
 .reader-item {
   margin: 0;
-  padding: 18px 20px;
+  padding: 20px 22px;
   color: var(--ink);
-  background: rgba(255, 246, 230, 0.78);
+  background:
+    linear-gradient(135deg, rgba(255, 246, 230, 0.92), rgba(255, 246, 230, 0.64)),
+    var(--cream);
   border: 1px solid rgba(184, 138, 68, 0.3);
   border-left: 5px solid var(--red);
-  border-radius: 16px;
+  border-radius: 6px 18px 18px 6px;
   box-shadow: 0 12px 28px rgba(45, 38, 48, 0.08);
   font-size: 1.05rem;
   line-height: 1.65;
@@ -1976,15 +2001,8 @@ p {
     grid-template-columns: 1fr;
   }
 
-  .reader-track {
-    grid-template-columns: 1fr;
-  }
-
-  .reader-tabs {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    max-height: none;
-    overflow: visible;
-    padding-right: 0;
+  .reader-tabs button {
+    flex-basis: min(220px, 70vw);
   }
 
   .author-deck,
@@ -2090,10 +2108,13 @@ p {
     align-items: flex-start;
   }
 
-  .reader-tabs,
   .reader-slide-items,
   .reader-controls {
     grid-template-columns: 1fr;
+  }
+
+  .reader-tabs button {
+    flex-basis: min(220px, 82vw);
   }
 
   .reader-slide {
@@ -2101,7 +2122,7 @@ p {
   }
 
   .reader-slide-header {
-    flex-direction: column-reverse;
+    grid-template-columns: 1fr;
   }
 
   .reader-slide-header h3 {
