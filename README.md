@@ -1,4 +1,4 @@
-# Observatório de Práticas - País das Infâncias
+# Observatório Digital dos Caminhos da Leitura e da Escrita no País das Infâncias
 
 Site narrativo para apresentar, em formato de travessia, a pesquisa de mestrado sobre o Programa Leitura e Escrita na Educação Infantil (LEEI) e suas repercussões nas práticas docentes da Educação Infantil.
 

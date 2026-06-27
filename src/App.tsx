@@ -7,6 +7,9 @@ import { SectionExperience } from '@/components/SectionExperience';
 import { documentSections } from '@/data/document-content';
 import { hasSectionExperience } from '@/data/section-experiences';
 
+const SITE_TITLE = 'Observatório Digital dos Caminhos da Leitura e da Escrita no País das Infâncias';
+const SHORT_SITE_TITLE = 'Observatório Digital';
+
 function App() {
   const { sectionId } = useParams();
 
@@ -33,8 +36,8 @@ function HomePage() {
           </div>
           <div className="hero-copy">
             <p className="kicker">Produto educacional de mestrado</p>
-            <h1 id="hero-title">Observatório de Práticas</h1>
-            <p className="hero-subtitle">Caminhos da Leitura e da Escrita no País das Infâncias</p>
+            <h1 id="hero-title">{SITE_TITLE}</h1>
+            <p className="hero-subtitle">Uma travessia interativa inspirada em Alice</p>
             <p>
               Escolha uma cena para entrar. Cada parada abre um ambiente inspirado em Alice e carrega
               as informações daquela parte do observatório.
@@ -254,9 +257,9 @@ function SiteHeader({
 
   return (
     <header className="site-header">
-      <Link className="brand" to="/" aria-label="Voltar ao início">
+      <Link className="brand" to="/" aria-label={`Voltar ao início do ${SITE_TITLE}`}>
         <span className="brand-mark">O</span>
-        <span>Observatório</span>
+        <span>{SHORT_SITE_TITLE}</span>
       </Link>
       <nav className="main-nav" aria-label="Atalhos principais">
         {primarySections.map((section) => (
@@ -339,7 +342,7 @@ function getExperience(sectionId: string) {
     action: 'Abrir experiência',
     closedTitle: 'Abra esta parada para carregar o conteúdo.',
     closedText: 'Cada página preserva o texto da cliente, mas aparece como uma cena navegável.',
-    description: 'Uma parada narrativa do Observatório de Práticas.',
+    description: 'Uma parada narrativa do Observatório Digital.',
     asset: '/assets/alice-watercolor/gate.png',
     className: 'scene-door',
     symbols: ['?', '✦', '•']

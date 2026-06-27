@@ -1,4 +1,4 @@
-# Alice Caminhos da Leitura
+# Observatório Digital dos Caminhos da Leitura e da Escrita no País das Infâncias
 
 ## Project Context
 

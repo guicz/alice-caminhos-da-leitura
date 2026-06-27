@@ -17,6 +17,8 @@ import {
 import { authors, baggageKeys, chapters } from '@/data/observatory';
 import { practiceGalleries, teacherLetters } from '@/data/research-gallery';
 
+type BoardSquare = [label: string, title: string, body: string, piece: string, tone: string];
+
 const voiceThemes = [
   {
     title: 'Infâncias',
@@ -75,6 +77,48 @@ const curiosityStops = [
   ['Leitura e escrita', 'Cadernos do LEEI, cultura escrita, literatura infantil e oralidade.'],
   ['Formação docente', 'Nóvoa, Alarcão, Imbernón, Tardif e desenvolvimento profissional.'],
   ['Continuar a travessia', 'Vídeos, livros, lives e materiais para aprofundamento.']
+];
+
+const boardSquaresBySection: Record<string, BoardSquare[]> = {
+  'quando-alice-encontra-a-rainha-vermelha': [
+    ['Casa 1', 'Antes da escola ensinar', 'Primeiros encontros cotidianos com leitura e escrita.', '♙', 'mint'],
+    ['Casa 2', 'Memórias leitoras', 'Livros, receitas, nomes e histórias aparecem antes da alfabetização.', '♘', 'cream'],
+    ['Casa 3', 'Universidade e desafios', 'Leituras, autores, adaptação e distância entre expectativa e realidade.', '♗', 'rose'],
+    ['Casa 4', 'Entre teoria e prática', 'Construção de pontes entre conceitos e cotidiano escolar.', '♕', 'cream'],
+    ['Casa 5', 'Estágio e primeira sala', 'Porta de entrada para crianças reais, imprevistos e aprendizagem.', '♔', 'sky'],
+    ['Casa 6', 'Professoras que inspiraram', 'Referências afetivas e profissionais deixam rastros na docência.', '♖', 'cream'],
+    ['Casa 7', 'Escolha profissional', 'O desejo de ensinar se tece nas experiências, brincadeiras e encontros.', '♙', 'mint'],
+    ['Casa 8', 'Travessia permanente', 'Ser professora não é chegada: é movimento de formação contínua.', '♘', 'gold']
+  ],
+  'o-tabuleiro-da-rainha-vermelha': [
+    ['Casa 1', 'Movimento permanente', 'A formação não termina com a graduação.', '♙', 'mint'],
+    ['Casa 2', 'Escuta e troca', 'Pequenos grupos e diálogo qualificam a participação.', '♘', 'cream'],
+    ['Casa 3', 'Tensões', 'Formações expositivas e distantes da escola perdem potência.', '♗', 'rose'],
+    ['Casa 4', 'Formação em contexto', 'A realidade da escola como ponto de partida.', '♕', 'cream'],
+    ['Casa 5', 'Tempo da escola', 'A formação ganha força quando cabe no cotidiano docente.', '♔', 'sky'],
+    ['Casa 6', 'Crítica que forma', 'O desconforto também produz perguntas e reposicionamentos.', '♖', 'cream'],
+    ['Casa 7', 'Pares em conversa', 'A troca entre professoras amplia repertórios e sentidos.', '♙', 'mint'],
+    ['Casa 8', 'Saberes em circulação', 'Planejar, registrar e narrar passam a sustentar a prática.', '♘', 'gold']
+  ],
+  'a-ultima-casa-do-tabuleiro': [
+    ['Casa 1', 'Da alfabetização antecipada', 'Para experiências vivas com a cultura escrita.', '♙', 'mint'],
+    ['Casa 2', 'Identidade docente', 'A professora se reconhece como autora de sua prática.', '♘', 'cream'],
+    ['Casa 3', 'Formação coletiva', 'A formação deixa de ser transmissão e vira construção compartilhada.', '♗', 'rose'],
+    ['Casa 4', 'Prática fundamentada', 'A experiência passa a dialogar com teoria e registro.', '♕', 'cream'],
+    ['Casa 5', 'Materiais que ficam', 'Cadernos, textos e leituras seguem apoiando planejamento e estudo.', '♔', 'sky'],
+    ['Casa 6', 'Novo olhar', 'Leitura e escrita aparecem nas brincadeiras, livros e portadores textuais.', '♖', 'cream'],
+    ['Casa 7', 'Crianças autoras', 'As crianças participam da cultura escrita desde muito cedo.', '♙', 'mint'],
+    ['Casa 8', 'Deslocamentos do LEEI', 'O programa deixa perguntas, repertório e novas possibilidades.', '♘', 'gold']
+  ]
+};
+
+const suitcaseItems: Array<[item: string, body: string, icon: string]> = [
+  ['Boneca', 'A infância não fica para trás.', 'sparkles'],
+  ['Livro', 'Leitura e escrita são experiências culturais.', 'book'],
+  ['Xícara', 'As ideias ganham sentido em conversa.', 'message'],
+  ['Mapa', 'A curiosidade abre novas rotas.', 'map'],
+  ['Carta', 'As narrativas preservam vozes.', 'mail'],
+  ['Rosa', 'O impossível se constrói com as crianças.', 'feather']
 ];
 
 export function SectionExperience({ sectionId }: { sectionId: string; paragraphs: string[] }) {
@@ -278,9 +322,16 @@ function BoardExperience({ sectionId }: { sectionId: string }) {
         </div>
       </section>
       <ol className="board-grid">
-        {chapter.trails.map(([title, body], index) => (
-          <li key={title}>
-            <span>Casa {index + 1}</span>
+        {(boardSquaresBySection[sectionId] ?? chapter.trails.map(([title, body], index) => [
+          `Casa ${index + 1}`,
+          title,
+          body,
+          '♙',
+          index % 2 ? 'cream' : 'mint'
+        ])).map(([label, title, body, piece, tone]) => (
+          <li className={`tone-${tone}`} key={`${label}-${title}`}>
+            <span>{label}</span>
+            <b aria-hidden="true">{piece}</b>
             <h3>{title}</h3>
             <p>{body}</p>
           </li>
@@ -359,12 +410,21 @@ function LibraryTab({
 
 function TeacherLettersPanel() {
   return (
-    <section className="library-panel">
+    <section className="library-panel letter-station">
+      <div className="letter-station-copy">
+        <p className="kicker">Cartas das professoras</p>
+        <h3>Envelopes abertos para futuras cursistas</h3>
+        <p>
+          As cartas reais entram como peças de acervo: cada uma pode ser aberta em tela cheia para
+          leitura mais confortável.
+        </p>
+      </div>
       <div className="letter-grid">
         {teacherLetters.map((letter) => (
           <a className="letter-card" href={letter.image} target="_blank" rel="noreferrer" key={letter.id}>
             <img src={letter.image} alt={letter.alt} loading="lazy" />
             <span>{letter.name}</span>
+            <small>Abrir carta</small>
           </a>
         ))}
       </div>
@@ -476,21 +536,31 @@ function BaggageExperience() {
           </p>
         </div>
       </section>
-      <div className="suitcase-grid">
-        {[
-          ['Boneca', 'A infância não fica para trás.'],
-          ['Livro', 'Leitura e escrita são experiências culturais.'],
-          ['Xícara', 'As ideias ganham sentido em conversa.'],
-          ['Mapa', 'A curiosidade abre novas rotas.'],
-          ['Carta', 'As narrativas preservam vozes.'],
-          ['Rosa', 'O impossível se constrói com as crianças.']
-        ].map(([item, body]) => (
-          <article key={item}>
-            <span>{item}</span>
-            <p>{body}</p>
-          </article>
-        ))}
+      <div className="suitcase-scene">
+        <div className="suitcase-hero" aria-hidden="true">
+          <img src="/assets/alice-watercolor/suitcase.png" alt="" />
+        </div>
+        <div className="suitcase-grid">
+          {suitcaseItems.map(([item, body, icon]) => (
+            <article className={`bag-item icon-${icon}`} key={item}>
+              {renderBagIcon(icon)}
+              <span>{item}</span>
+              <p>{body}</p>
+            </article>
+          ))}
+        </div>
       </div>
     </div>
   );
+}
+
+function renderBagIcon(icon: string) {
+  const props = { 'aria-hidden': true };
+
+  if (icon === 'book') return <BookOpen {...props} />;
+  if (icon === 'message') return <MessageCircle {...props} />;
+  if (icon === 'map') return <Map {...props} />;
+  if (icon === 'mail') return <MailOpen {...props} />;
+  if (icon === 'feather') return <Feather {...props} />;
+  return <Sparkles {...props} />;
 }

@@ -18,8 +18,12 @@ describe('Observatório app', () => {
 
     render(<RouterProvider router={router} />);
 
-    expect(screen.getByRole('heading', { name: 'Observatório de Práticas' })).toBeInTheDocument();
-  expect(screen.getByRole('link', { name: 'Entrar na toca' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', {
+        name: 'Observatório Digital dos Caminhos da Leitura e da Escrita no País das Infâncias'
+      })
+    ).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Entrar na toca' })).toBeInTheDocument();
   });
 
   it('renders a document section as a page route', () => {
@@ -57,5 +61,24 @@ describe('Observatório app', () => {
 
     expect(screen.getAllByRole('heading', { name: 'Restaurante Literário' }).length).toBeGreaterThan(0);
     expect(screen.getByAltText('Restaurante Literário - foto 1')).toBeInTheDocument();
+  });
+
+  it('renders an expanded chess board experience', () => {
+    const router = createMemoryRouter(
+      [
+        {
+          path: '/observatorio/:sectionId',
+          element: <App />
+        }
+      ],
+      { initialEntries: ['/observatorio/o-tabuleiro-da-rainha-vermelha'] }
+    );
+
+    render(<RouterProvider router={router} />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Mover uma casa' }));
+
+    expect(screen.getByText('Casa 8')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Saberes em circulação' })).toBeInTheDocument();
   });
 });

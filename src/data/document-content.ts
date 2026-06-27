@@ -4,7 +4,7 @@ export const documentSections: DocumentSection[] = [
   {
     "title": "Apresentação",
     "paragraphs": [
-      "Seja bem-vindo(a) ao Observatório de Práticas: Caminhos da Leitura e da Escrita no País das Infâncias.",
+      "Seja bem-vindo(a) ao Observatório Digital dos Caminhos da Leitura e da Escrita no País das Infâncias.",
       "Este observatório é o produto educacional da pesquisa de mestrado desenvolvida no Programa de Pós-Graduação em Políticas Públicas e Gestão Educacional da Universidade Federal de Santa Maria (UFSM), que investigou as repercussões do Programa de formação continuada Leitura e Escrita na Educação Infantil (LEEI) nas práticas pedagógicas de professoras da Educação Infantil.",
       "A partir das narrativas e experiências de seis professoras das redes municipais de Santa Maria e São Francisco de Assis (RS), este espaço reúne reflexões, práticas, registros e percursos construídos ao longo da pesquisa, dando visibilidade aos caminhos da leitura e da escrita no País das Infâncias.",
       "Mais do que apresentar resultados, este observatório convida você a percorrer trilhas, descobrir experiências e refletir sobre a infância, a formação docente e o direito das crianças de viverem experiências significativas com a leitura, a escrita, a literatura e a imaginação.",
