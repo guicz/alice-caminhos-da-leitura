@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { CSSProperties } from 'react';
-import { Expand, Menu } from 'lucide-react';
+import type { CSSProperties, ReactElement } from 'react';
+import { BookMarked, ChevronLeft, ChevronRight, Expand, Link2, ListChecks, Menu, Quote, Sparkles } from 'lucide-react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { SectionExperience } from '@/components/SectionExperience';
@@ -199,20 +199,20 @@ function DocumentPage({ activeIndex }: { activeIndex: number }) {
                   <>
                     <SectionExperience sectionId={activeSection.id} paragraphs={activeSection.paragraphs} />
                     <details className="source-drawer">
-                      <summary>Texto completo do documento</summary>
-                      <div className="page-body">
-                        {activeSection.paragraphs.map((paragraph, index) => (
-                          <DocumentParagraph paragraph={paragraph} key={`${activeSection.id}-${index}`} />
-                        ))}
-                      </div>
+                      <summary>Ler o texto em blocos visuais</summary>
+                      <VisualDocumentReader
+                        key={activeSection.id}
+                        paragraphs={activeSection.paragraphs}
+                        sectionTitle={getDisplayTitle(activeSection.title)}
+                      />
                     </details>
                   </>
                 ) : (
-                  <div className="page-body">
-                    {activeSection.paragraphs.map((paragraph, index) => (
-                      <DocumentParagraph paragraph={paragraph} key={`${activeSection.id}-${index}`} />
-                    ))}
-                  </div>
+                  <VisualDocumentReader
+                    key={activeSection.id}
+                    paragraphs={activeSection.paragraphs}
+                    sectionTitle={getDisplayTitle(activeSection.title)}
+                  />
                 )}
               </>
             )}
@@ -497,7 +497,221 @@ function getExperience(sectionId: string) {
   return map[sectionId] ?? fallback;
 }
 
-function DocumentParagraph({ paragraph }: { paragraph: string }) {
+type ReaderParagraphKind = 'text' | 'heading' | 'quote' | 'prompt' | 'resource' | 'list' | 'link';
+
+type ReaderParagraph = {
+  kind: ReaderParagraphKind;
+  text: string;
+  href?: string;
+  isHeading: boolean;
+};
+
+type ReaderBlock = {
+  title: string;
+  eyebrow: string;
+  kind: ReaderParagraphKind;
+  items: ReaderParagraph[];
+};
+
+function VisualDocumentReader({ sectionTitle, paragraphs }: { sectionTitle: string; paragraphs: string[] }) {
+  const blocks = useMemo(() => buildReaderBlocks(paragraphs), [paragraphs]);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const safeIndex = Math.min(activeIndex, blocks.length - 1);
+  const activeBlock = blocks[safeIndex];
+
+  if (!activeBlock) {
+    return null;
+  }
+
+  const progress = ((safeIndex + 1) / blocks.length) * 100;
+
+  return (
+    <div className="visual-reader">
+      <div className="reader-progress" aria-hidden="true">
+        <span style={{ width: `${progress}%` }} />
+      </div>
+      <div className="reader-track">
+        <nav className="reader-tabs" aria-label={`Blocos de leitura de ${sectionTitle}`}>
+          {blocks.map((block, index) => (
+            <button
+              className={index === safeIndex ? 'is-active' : undefined}
+              type="button"
+              onClick={() => setActiveIndex(index)}
+              key={`${block.title}-${index}`}
+            >
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              {block.title}
+            </button>
+          ))}
+        </nav>
+
+        <article className={`reader-slide reader-${activeBlock.kind}`}>
+          <header className="reader-slide-header">
+            <div>
+              <p className="kicker">{activeBlock.eyebrow}</p>
+              <h3>{activeBlock.title}</h3>
+            </div>
+            <span className="reader-slide-icon">{getReaderIcon(activeBlock.kind)}</span>
+          </header>
+
+          <div className="reader-slide-items">
+            {activeBlock.items.map((item, index) => (
+              <ReaderItem item={item} key={`${item.text}-${index}`} />
+            ))}
+          </div>
+
+          <footer className="reader-controls">
+            <button
+              type="button"
+              onClick={() => setActiveIndex((current) => Math.max(0, current - 1))}
+              disabled={safeIndex === 0}
+              aria-label="Bloco anterior"
+            >
+              <ChevronLeft aria-hidden="true" />
+              Anterior
+            </button>
+            <span>
+              {safeIndex + 1}/{blocks.length}
+            </span>
+            <button
+              type="button"
+              onClick={() => setActiveIndex((current) => Math.min(blocks.length - 1, current + 1))}
+              disabled={safeIndex === blocks.length - 1}
+              aria-label="Proximo bloco"
+            >
+              Proximo
+              <ChevronRight aria-hidden="true" />
+            </button>
+          </footer>
+        </article>
+      </div>
+    </div>
+  );
+}
+
+function ReaderItem({ item }: { item: ReaderParagraph }) {
+  if (item.kind === 'quote') {
+    return <blockquote className="reader-item">{item.text}</blockquote>;
+  }
+
+  if (item.kind === 'link' && item.href) {
+    return (
+      <a className="reader-item reader-link" href={item.href} target="_blank" rel="noreferrer">
+        {item.text}
+      </a>
+    );
+  }
+
+  return <p className={`reader-item reader-item-${item.kind}`}>{item.text}</p>;
+}
+
+function buildReaderBlocks(paragraphs: string[]) {
+  const blocks: ReaderBlock[] = [];
+  let currentBlock: ReaderBlock | null = null;
+
+  paragraphs.forEach((paragraph) => {
+    const meta = getReaderParagraph(paragraph);
+    if (!meta) return;
+
+    if (meta.isHeading) {
+      currentBlock = {
+        title: meta.text,
+        eyebrow: getReaderEyebrow(meta.kind),
+        kind: meta.kind,
+        items: []
+      };
+      blocks.push(currentBlock);
+      return;
+    }
+
+    const needsNewBlock =
+      !currentBlock ||
+      currentBlock.items.length >= 3 ||
+      (currentBlock.kind !== meta.kind && ['quote', 'prompt', 'resource', 'link', 'list'].includes(meta.kind));
+
+    if (needsNewBlock) {
+      currentBlock = {
+        title: getReaderTitle(meta, blocks.length),
+        eyebrow: getReaderEyebrow(meta.kind),
+        kind: meta.kind,
+        items: []
+      };
+      blocks.push(currentBlock);
+    }
+
+    if (!currentBlock) return;
+    currentBlock.items.push(meta);
+  });
+
+  return blocks.filter((block) => block.items.length > 0);
+}
+
+function getReaderParagraph(paragraph: string): ReaderParagraph | null {
+  const trimmed = paragraph.trim();
+  if (
+    trimmed.startsWith('**faria') ||
+    trimmed.startsWith('â€œCom pequenos cards') ||
+    trimmed.startsWith('( pode colocar') ||
+    trimmed.startsWith('Pode organizar por temas:')
+  ) {
+    return null;
+  }
+
+  const text = stripDocumentIcon(trimmed);
+  const isLink = /^https?:\/\//.test(trimmed);
+  const isPrompt =
+    text.endsWith('?') ||
+    text.startsWith('Pergunta') ||
+    text.startsWith('O que aprendemos') ||
+    text.startsWith('O deslocamento');
+  const isQuote = trimmed.startsWith('"') || trimmed.startsWith('â€œ') || trimmed.includes('(Professora');
+  const hasDocumentIcon = text !== trimmed;
+  const isResource = hasDocumentIcon && !isPrompt;
+  const isList = text.endsWith(';') || /^(Trilha|Parada|BAGAGEM|Chave)\s/i.test(text);
+  const isHeading = text.length < 76 && !text.endsWith('.') && !isQuote && !isLink;
+
+  if (isLink) return { kind: 'link', text: trimmed, href: trimmed.split(' ')[0], isHeading: false };
+  if (isResource) return { kind: 'resource', text, isHeading: false };
+  if (isList) return { kind: 'list', text: text.replace(/;$/, ''), isHeading: false };
+  if (isQuote) return { kind: 'quote', text, isHeading: false };
+  if (isPrompt) return { kind: 'prompt', text, isHeading: false };
+  if (isHeading) return { kind: 'heading', text, isHeading: true };
+
+  return { kind: 'text', text, isHeading: false };
+}
+
+function getReaderTitle(meta: ReaderParagraph, index: number) {
+  if (meta.kind === 'quote') return 'Voz da travessia';
+  if (meta.kind === 'prompt') return 'Pergunta para seguir';
+  if (meta.kind === 'resource') return 'Pista do acervo';
+  if (meta.kind === 'link') return 'Caminho externo';
+  if (meta.kind === 'list') return 'Peca do percurso';
+  return `Bloco de leitura ${String(index + 1).padStart(2, '0')}`;
+}
+
+function getReaderEyebrow(kind: ReaderParagraphKind) {
+  const labels: Record<ReaderParagraphKind, string> = {
+    text: 'Leitura guiada',
+    heading: 'Ponto da travessia',
+    quote: 'Voz da pesquisa',
+    prompt: 'Pergunta disparadora',
+    resource: 'Recurso de pesquisa',
+    list: 'Mapa de ideias',
+    link: 'Referencia externa'
+  };
+
+  return labels[kind];
+}
+
+function getReaderIcon(kind: ReaderParagraphKind): ReactElement {
+  if (kind === 'quote') return <Quote aria-hidden="true" />;
+  if (kind === 'prompt') return <Sparkles aria-hidden="true" />;
+  if (kind === 'resource' || kind === 'link') return <Link2 aria-hidden="true" />;
+  if (kind === 'list') return <ListChecks aria-hidden="true" />;
+  return <BookMarked aria-hidden="true" />;
+}
+
+export function DocumentParagraph({ paragraph }: { paragraph: string }) {
   const trimmed = paragraph.trim();
   if (
     trimmed.startsWith('**faria') ||
