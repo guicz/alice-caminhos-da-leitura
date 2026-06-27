@@ -468,6 +468,42 @@ p {
 .experience-card:nth-child(12),
 .experience-card:nth-child(13) {
   grid-column: span 6;
+  background-size: auto 118%;
+  background-position: right 26px center;
+}
+
+.experience-card:nth-child(13) {
+  background-size: auto 132%;
+  background-position: right 34px center;
+}
+
+.experience-card:nth-child(12)::after,
+.experience-card:nth-child(13)::after {
+  background:
+    linear-gradient(90deg, rgba(255, 246, 230, 0.97) 0 42%, rgba(255, 246, 230, 0.68) 58%, rgba(255, 246, 230, 0.14) 100%),
+    radial-gradient(circle at 86% 34%, rgba(205, 230, 214, 0.28), transparent 17rem),
+    linear-gradient(0deg, rgba(251, 240, 216, 0.56), transparent 72%);
+}
+
+.experience-card:nth-child(12) div,
+.experience-card:nth-child(13) div {
+  max-width: min(54%, 430px);
+  padding: 16px 18px 16px 20px;
+  background: rgba(255, 246, 230, 0.72);
+  border-left-width: 4px;
+  border-radius: 0 18px 18px 0;
+  box-shadow: 0 18px 34px rgba(53, 92, 125, 0.1);
+  backdrop-filter: blur(8px);
+}
+
+.experience-card:nth-child(12) h3,
+.experience-card:nth-child(13) h3 {
+  font-size: clamp(1.4rem, 1.85vw, 2rem);
+}
+
+.experience-card:nth-child(12) p,
+.experience-card:nth-child(13) p {
+  line-height: 1.28;
 }
 
 .experience-card:first-child h3 {
@@ -1275,9 +1311,9 @@ p {
 
 .letter-station-copy {
   display: grid;
-  grid-template-columns: minmax(0, 0.75fr) minmax(240px, 0.45fr);
-  gap: 18px;
-  align-items: end;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  align-items: start;
   padding: clamp(22px, 3vw, 34px);
   background:
     radial-gradient(circle at 100% 0%, rgba(244, 182, 194, 0.22), transparent 10rem),
@@ -1289,14 +1325,15 @@ p {
 
 .letter-station-copy h3 {
   margin: 0;
-  font-size: clamp(2rem, 4vw, 3.4rem);
+  max-width: 900px;
+  font-size: clamp(2rem, 3.6vw, 3.2rem);
   line-height: 0.98;
 }
 
 .letter-station-copy p:last-child {
   margin-bottom: 0;
-  max-width: 34ch;
-  justify-self: end;
+  max-width: 720px;
+  justify-self: start;
 }
 
 .letter-grid {
@@ -1530,7 +1567,7 @@ p {
 .suitcase-scene {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(240px, 0.7fr) minmax(0, 1.3fr);
+  grid-template-columns: minmax(230px, 0.48fr) minmax(0, 1.52fr);
   gap: clamp(18px, 3vw, 34px);
   align-items: start;
   padding: clamp(20px, 3vw, 34px);
@@ -1548,6 +1585,7 @@ p {
   place-items: center;
   aspect-ratio: 1;
   min-height: 0;
+  overflow: hidden;
   background:
     radial-gradient(circle at 50% 52%, rgba(255, 246, 230, 0.9), transparent 13rem),
     linear-gradient(180deg, rgba(255, 246, 230, 0.64), rgba(205, 230, 214, 0.22));
@@ -1557,10 +1595,12 @@ p {
 
 .suitcase-hero img {
   display: block;
-  width: min(108%, 460px);
-  max-height: 82%;
+  width: 92%;
+  height: 92%;
+  max-height: none;
   object-fit: contain;
   object-position: center;
+  opacity: 0.94;
   filter: drop-shadow(0 24px 32px rgba(53, 92, 125, 0.16));
 }
 
@@ -1570,26 +1610,73 @@ p {
   gap: 14px;
 }
 
-.bag-item {
+.suitcase-grid .bag-item {
   position: relative;
   display: grid;
-  align-content: start;
-  min-height: 190px;
-  padding: 18px;
+  grid-template-rows: 132px 1fr;
+  align-content: stretch;
+  min-height: 258px;
+  overflow: hidden;
+  padding: 0;
   background: rgba(255, 246, 230, 0.9);
   border: 1px solid rgba(184, 138, 68, 0.38);
   border-radius: 22px;
   box-shadow: 0 14px 28px rgba(53, 92, 125, 0.08);
 }
 
-.bag-item svg {
-  width: 34px;
-  height: 34px;
-  margin-bottom: 24px;
-  color: var(--petrol);
+.bag-item-image {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  padding: 10px;
+  background:
+    radial-gradient(circle at 80% 12%, rgba(205, 230, 214, 0.32), transparent 8rem),
+    rgba(255, 246, 230, 0.78);
+  border-bottom: 1px solid rgba(184, 138, 68, 0.26);
 }
 
-.bag-item span {
+.bag-item-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, transparent 0 54%, rgba(255, 246, 230, 0.34) 82%, rgba(255, 246, 230, 0.86) 100%),
+    linear-gradient(90deg, rgba(255, 246, 230, 0.22), transparent 46%);
+}
+
+.bag-item-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  opacity: 0.98;
+  filter: saturate(0.95) contrast(0.98);
+}
+
+.bag-item-copy {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  align-content: start;
+  padding: 18px 18px 20px;
+}
+
+.bag-item-copy svg {
+  position: absolute;
+  top: -21px;
+  right: 14px;
+  width: 28px;
+  height: 28px;
+  padding: 6px;
+  color: var(--petrol);
+  background: rgba(182, 214, 235, 0.86);
+  border: 1px solid rgba(53, 92, 125, 0.2);
+  border-radius: 999px;
+}
+
+.suitcase-grid .bag-item-copy span {
   display: inline-flex;
   width: max-content;
   margin-bottom: 10px;
@@ -1600,23 +1687,23 @@ p {
   font-weight: 900;
 }
 
-.bag-item p {
+.bag-item-copy p {
   margin: 0;
 }
 
 .bag-item.icon-sparkles,
 .bag-item.icon-mail {
-  background: rgba(244, 182, 194, 0.18);
+  background: linear-gradient(180deg, rgba(244, 182, 194, 0.2), rgba(255, 246, 230, 0.96));
 }
 
 .bag-item.icon-book,
 .bag-item.icon-map {
-  background: rgba(182, 214, 235, 0.18);
+  background: linear-gradient(180deg, rgba(182, 214, 235, 0.2), rgba(255, 246, 230, 0.96));
 }
 
 .bag-item.icon-message,
 .bag-item.icon-feather {
-  background: rgba(205, 230, 214, 0.24);
+  background: linear-gradient(180deg, rgba(205, 230, 214, 0.26), rgba(255, 246, 230, 0.96));
 }
 
 .source-drawer {

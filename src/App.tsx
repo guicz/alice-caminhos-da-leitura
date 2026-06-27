@@ -488,7 +488,7 @@ function getExperience(sectionId: string) {
       closedTitle: 'A mala guarda os achados.',
       closedText: 'Abra para carregar a síntese final e os tesouros da pesquisa.',
       description: 'A síntese dos achados, perguntas e deslocamentos que ficam da jornada.',
-      asset: '/assets/alice-watercolor/suitcase.png',
+      asset: '/assets/alice-watercolor/suitcase-cropped.png',
       className: 'scene-bag',
       symbols: ['livro', 'carta', 'rosa']
     }

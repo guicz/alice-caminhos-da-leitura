@@ -112,13 +112,57 @@ const boardSquaresBySection: Record<string, BoardSquare[]> = {
   ]
 };
 
-const suitcaseItems: Array<[item: string, body: string, icon: string]> = [
-  ['Boneca', 'A infância não fica para trás.', 'sparkles'],
-  ['Livro', 'Leitura e escrita são experiências culturais.', 'book'],
-  ['Xícara', 'As ideias ganham sentido em conversa.', 'message'],
-  ['Mapa', 'A curiosidade abre novas rotas.', 'map'],
-  ['Carta', 'As narrativas preservam vozes.', 'mail'],
-  ['Rosa', 'O impossível se constrói com as crianças.', 'feather']
+type SuitcaseItem = {
+  item: string;
+  body: string;
+  icon: string;
+  image: string;
+  alt: string;
+};
+
+const suitcaseItems: SuitcaseItem[] = [
+  {
+    item: 'Boneca',
+    body: 'A infância não fica para trás.',
+    icon: 'sparkles',
+    image: '/assets/alice-watercolor/gate.png',
+    alt: 'Portão ilustrado cercado por flores'
+  },
+  {
+    item: 'Livro',
+    body: 'Leitura e escrita são experiências culturais.',
+    icon: 'book',
+    image: '/assets/alice-watercolor/storybook.png',
+    alt: 'Livro aberto com flores'
+  },
+  {
+    item: 'Xícara',
+    body: 'As ideias ganham sentido em conversa.',
+    icon: 'message',
+    image: '/assets/alice-watercolor/tea.png',
+    alt: 'Xícaras de chá ilustradas'
+  },
+  {
+    item: 'Mapa',
+    body: 'A curiosidade abre novas rotas.',
+    icon: 'map',
+    image: '/assets/alice-watercolor/curiosity-map.png',
+    alt: 'Mapa ilustrado com bússola'
+  },
+  {
+    item: 'Carta',
+    body: 'As narrativas preservam vozes.',
+    icon: 'mail',
+    image: '/assets/alice-watercolor/hatter-library.png',
+    alt: 'Biblioteca com livros e cartas'
+  },
+  {
+    item: 'Rosa',
+    body: 'O impossível se constrói com as crianças.',
+    icon: 'feather',
+    image: '/assets/alice-watercolor/queen.png',
+    alt: 'Carta da rainha cercada por rosas'
+  }
 ];
 
 export function SectionExperience({ sectionId }: { sectionId: string; paragraphs: string[] }) {
@@ -541,11 +585,16 @@ function BaggageExperience() {
           <img src="/assets/alice-watercolor/suitcase-cropped.png" alt="" />
         </div>
         <div className="suitcase-grid">
-          {suitcaseItems.map(([item, body, icon]) => (
+          {suitcaseItems.map(({ item, body, icon, image, alt }) => (
             <article className={`bag-item icon-${icon}`} key={item}>
-              {renderBagIcon(icon)}
-              <span>{item}</span>
-              <p>{body}</p>
+              <div className="bag-item-image">
+                <img src={image} alt={alt} loading="lazy" />
+              </div>
+              <div className="bag-item-copy">
+                {renderBagIcon(icon)}
+                <span>{item}</span>
+                <p>{body}</p>
+              </div>
             </article>
           ))}
         </div>
