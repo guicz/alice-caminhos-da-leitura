@@ -907,7 +907,30 @@ p {
 }
 
 .baggage-room .experience-intro-panel {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   grid-template-columns: 74px minmax(0, 1fr);
+}
+
+.baggage-room .experience-intro-panel::after {
+  content: '';
+  position: absolute;
+  right: clamp(14px, 4vw, 46px);
+  bottom: -18px;
+  z-index: 0;
+  width: min(34%, 310px);
+  aspect-ratio: 1.45;
+  background: url('/assets/alice-watercolor/suitcase-cropped.png') center / contain no-repeat;
+  opacity: 0.2;
+  filter: saturate(0.92);
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 48%, transparent 78%);
+  mask-image: radial-gradient(ellipse at center, #000 48%, transparent 78%);
+}
+
+.baggage-room .experience-intro-panel > * {
+  position: relative;
+  z-index: 1;
 }
 
 .baggage-room .experience-intro-panel > svg {
@@ -1582,10 +1605,9 @@ p {
 
 .suitcase-scene {
   position: relative;
-  display: grid;
-  grid-template-columns: minmax(230px, 0.48fr) minmax(0, 1.52fr);
-  gap: clamp(18px, 3vw, 34px);
-  align-items: start;
+  isolation: isolate;
+  overflow: hidden;
+  display: block;
   padding: clamp(20px, 3vw, 34px);
   background:
     radial-gradient(circle at 22% 28%, rgba(244, 182, 194, 0.2), transparent 16rem),
@@ -1595,56 +1617,34 @@ p {
   border-radius: 32px;
 }
 
-.suitcase-hero {
-  align-self: start;
-  display: grid;
-  place-items: center;
-  aspect-ratio: 1;
-  min-height: 0;
-  overflow: hidden;
-  position: relative;
-  background:
-    radial-gradient(circle at 50% 52%, rgba(255, 246, 230, 0.9), transparent 13rem),
-    linear-gradient(180deg, rgba(255, 246, 230, 0.64), rgba(205, 230, 214, 0.22));
-  border: 1px solid rgba(184, 138, 68, 0.34);
-  border-radius: 26px;
-}
-
-.suitcase-hero::after {
+.suitcase-scene::before {
   content: '';
   position: absolute;
   inset: 0;
+  z-index: 0;
   pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(255, 246, 230, 0.94) 0, transparent 18%, transparent 76%, rgba(255, 246, 230, 0.9) 100%),
-    linear-gradient(90deg, rgba(255, 246, 230, 0.92) 0, transparent 18%, transparent 82%, rgba(255, 246, 230, 0.9) 100%);
-}
-
-.suitcase-hero img {
-  display: block;
-  width: 92%;
-  height: 92%;
-  max-height: none;
-  object-fit: contain;
-  object-position: center;
-  opacity: 0.94;
-  filter: drop-shadow(0 24px 32px rgba(53, 92, 125, 0.16));
-  -webkit-mask-image: radial-gradient(ellipse at center, #000 62%, transparent 84%);
-  mask-image: radial-gradient(ellipse at center, #000 62%, transparent 84%);
+    linear-gradient(90deg, rgba(251, 240, 216, 0.92) 0 42%, rgba(251, 240, 216, 0.28) 100%),
+    url('/assets/alice-watercolor/suitcase-cropped.png') right clamp(18px, 4vw, 46px) top 20px / min(44%, 430px) auto no-repeat;
+  opacity: 0.34;
+  -webkit-mask-image: radial-gradient(ellipse at 82% 26%, #000 0 40%, transparent 74%);
+  mask-image: radial-gradient(ellipse at 82% 26%, #000 0 40%, transparent 74%);
 }
 
 .suitcase-grid {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
+  gap: clamp(16px, 2.4vw, 24px);
 }
 
 .suitcase-grid .bag-item {
   position: relative;
   display: grid;
-  grid-template-rows: 132px 1fr;
+  grid-template-rows: 172px 1fr;
   align-content: stretch;
-  min-height: 258px;
+  min-height: 330px;
   overflow: hidden;
   padding: 0;
   background: rgba(255, 246, 230, 0.9);
@@ -1744,17 +1744,15 @@ p {
 }
 
 @container (max-width: 920px) {
-  .suitcase-scene {
-    grid-template-columns: 1fr;
+  .suitcase-scene::before {
+    background:
+      linear-gradient(180deg, rgba(251, 240, 216, 0.9), rgba(251, 240, 216, 0.46)),
+      url('/assets/alice-watercolor/suitcase-cropped.png') right 12px top 12px / min(60%, 360px) auto no-repeat;
+    opacity: 0.22;
   }
 
-  .suitcase-hero {
-    aspect-ratio: 16 / 7;
-  }
-
-  .suitcase-hero img {
-    width: min(440px, 78%);
-    height: 100%;
+  .suitcase-grid .bag-item {
+    min-height: 306px;
   }
 }
 

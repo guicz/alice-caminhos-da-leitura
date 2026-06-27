@@ -581,9 +581,6 @@ function BaggageExperience() {
         </div>
       </section>
       <div className="suitcase-scene">
-        <div className="suitcase-hero" aria-hidden="true">
-          <img src="/assets/alice-watercolor/suitcase-cropped.png" alt="" />
-        </div>
         <div className="suitcase-grid">
           {suitcaseItems.map(({ item, body, icon, image, alt }) => (
             <article className={`bag-item icon-${icon}`} key={item}>
